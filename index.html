@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biomedical Core - Requerimientos del Sistema</title>
+    <!-- Palette: Deep Navy #051923, Vibrant Blue #00A8E8, Energetic Teal #00CECB, Warning Orange #FF9F1C, White #FFFFFF -->
+    <!-- CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in the output. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background-color: #F4F7F6; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container { height: 380px; }
+        }
+        .text-gradient {
+            background: linear-gradient(90deg, #00A8E8, #00CECB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-shadow { box-shadow: 0 10px 25px -5px rgba(5, 25, 35, 0.1), 0 8px 10px -6px rgba(5, 25, 35, 0.1); }
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+    </style>
+</head>
+<body class="text-[#051923] antialiased">
+
+    <header class="bg-[#051923] text-white pt-16 pb-24 px-6 text-center">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-5xl mb-4">🏥</div>
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
+                <span class="text-gradient">Biomedical Core</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-300 font-light max-w-3xl mx-auto mb-8">
+                Infografía de Requerimientos del Sistema de Gestión de Mantenimiento Hospitalario (CMMS). Plataforma integral para Ingeniería Clínica, Infraestructura Predial y Asistencia Técnica.
+            </p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+                <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-white/10">
+                    <div class="text-3xl font-extrabold text-[#00A8E8]">5</div>
+                    <div class="text-xs text-gray-300 mt-1">Módulos Core</div>
+                </div>
+                <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-white/10">
+                    <div class="text-3xl font-extrabold text-[#00CECB]">35+</div>
+                    <div class="text-xs text-gray-300 mt-1">Funcionalidades</div>
+                </div>
+                <div class="relative bg-white/5 rounded-xl p-4 backdrop-blur-sm border border-white/10 opacity-50 cursor-not-allowed overflow-hidden">
+                    <div class="text-3xl font-extrabold text-[#FF9F1C]">6</div>
+                    <div class="text-xs text-gray-300 mt-1">Protocolos IoT</div>
+                    <div class="absolute inset-0 flex items-center justify-center bg-black/40 rounded-xl">
+                        <span class="text-[10px] font-bold text-white bg-[#FF9F1C]/80 px-2 py-0.5 rounded-full tracking-widest uppercase">Próximamente</span>
+                    </div>
+                </div>
+                <div class="relative bg-white/5 rounded-xl p-4 backdrop-blur-sm border border-white/10 opacity-50 cursor-not-allowed overflow-hidden">
+                    <div class="text-xl font-extrabold text-white">ISO/JCI</div>
+                    <div class="text-xs text-gray-300 mt-1">Cumplimiento</div>
+                    <div class="absolute inset-0 flex items-center justify-center bg-black/40 rounded-xl">
+                        <span class="text-[10px] font-bold text-white bg-[#FF9F1C]/80 px-2 py-0.5 rounded-full tracking-widest uppercase">Próximamente</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 -mt-12 relative z-10">
+
+        <!-- ===================== VISTA HOME ===================== -->
+        <div id="view-home" class="app-view block fade-in">
+
+            <!-- Fila superior: 3 módulos funcionales -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <button onclick="switchView('view-clinica')" class="text-left bg-white rounded-xl card-shadow p-8 border-t-4 border-[#00A8E8] hover:-translate-y-2 hover:shadow-xl transition-all duration-300 w-full focus:outline-none">
+                    <div class="text-4xl mb-4 text-[#00A8E8]">🩺</div>
+                    <h2 class="text-xl font-bold mb-3 text-[#051923]">Ingeniería Clínica</h2>
+                    <p class="text-gray-600 text-sm mb-4">Gestión del ciclo de vida del equipamiento biomédico. Trazabilidad metrológica, calibración, mantenimiento predictivo y cumplimiento normativo (ISO/JCI).</p>
+                    <div class="text-[#00A8E8] text-sm font-semibold flex items-center bg-blue-50 p-2 rounded-lg w-max">
+                        Ver requerimientos <span class="ml-2 text-lg">→</span>
+                    </div>
+                </button>
+                <button onclick="switchView('view-predial')" class="text-left bg-white rounded-xl card-shadow p-8 border-t-4 border-[#00CECB] hover:-translate-y-2 hover:shadow-xl transition-all duration-300 w-full focus:outline-none">
+                    <div class="text-4xl mb-4 text-[#00CECB]">⚙️</div>
+                    <h2 class="text-xl font-bold mb-3 text-[#051923]">Mantenimiento Predial</h2>
+                    <p class="text-gray-600 text-sm mb-4">Facilities Management hospitalario. Monitoreo IoT de gases, energía y ambiente. Control de obras, contratistas y consumos críticos de infraestructura.</p>
+                    <div class="text-[#00CECB] text-sm font-semibold flex items-center bg-teal-50 p-2 rounded-lg w-max">
+                        Ver requerimientos <span class="ml-2 text-lg">→</span>
+                    </div>
+                </button>
+                <button onclick="switchView('view-asistencia')" class="text-left bg-white rounded-xl card-shadow p-8 border-t-4 border-[#FF9F1C] hover:-translate-y-2 hover:shadow-xl transition-all duration-300 w-full focus:outline-none">
+                    <div class="text-4xl mb-4 text-[#FF9F1C]">🤝</div>
+                    <h2 class="text-xl font-bold mb-3 text-[#051923]">Asistencia Técnica</h2>
+                    <p class="text-gray-600 text-sm mb-4">Gestión bidireccional de servicios tercerizados. Control de SLAs, scoring de proveedores, comodatos y auditoría financiera de contratos externos.</p>
+                    <div class="text-[#FF9F1C] text-sm font-semibold flex items-center bg-orange-50 p-2 rounded-lg w-max">
+                        Ver requerimientos <span class="ml-2 text-lg">→</span>
+                    </div>
+                </button>
+            </section>
+
+        </div>
+
+        <!-- ===================== VISTA: INGENIERÍA CLÍNICA ===================== -->
+        <div id="view-clinica" class="app-view hidden fade-in">
+            <button onclick="switchView('view-home')" class="mb-6 flex items-center text-[#00A8E8] font-bold hover:underline bg-white px-4 py-2 rounded-lg shadow-sm w-max border border-gray-100 transition-colors hover:bg-gray-50">
+                <span class="mr-2 text-xl">←</span> Volver al Panel Principal
+            </button>
+
+            <div class="bg-white rounded-2xl card-shadow p-8 md:p-12 mb-8 border-t-8 border-[#00A8E8]">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="text-5xl text-[#00A8E8]">🩺</div>
+                    <div>
+                        <h2 class="text-3xl font-extrabold text-[#051923]">Ingeniería Clínica y Biomédica</h2>
+                        <p class="text-gray-500 font-medium">Gestión integral del ciclo de vida del equipamiento médico con trazabilidad completa.</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                        <h3 class="text-xl font-bold mb-4 flex items-center text-[#051923]">
+                            <span class="bg-[#00A8E8] text-white w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">✓</span>
+                            Requerimientos Funcionales
+                        </h3>
+                        <div class="max-h-[420px] overflow-y-auto custom-scroll pr-4 space-y-4 text-sm text-gray-700">
+                            <div class="border-l-2 border-[#00A8E8] pl-3">
+                                <strong class="text-[#051923] block mb-1">Inventario Catastral de Activos</strong>
+                                Registro completo de cada equipo: datos técnicos, valor de compra, garantías vigentes, ubicación física y código QR/barras para identificación instantánea desde app móvil.
+                            </div>
+                            <div class="border-l-2 border-[#00A8E8] pl-3">
+                                <strong class="text-[#051923] block mb-1">Mantenimiento Correctivo en Tiempo Real</strong>
+                                Apertura de OTs desde app móvil mediante escaneo de QR. Registro inmutable de fecha/hora. Tipificación obligatoria de causa de falla (técnica, desgaste, error de usuario, falla eléctrica).
+                            </div>
+                            <div class="border-l-2 border-[#00A8E8] pl-3">
+                                <strong class="text-[#051923] block mb-1">Mantenimiento Preventivo Automatizado</strong>
+                                Cronograma anual generado según parámetros del fabricante (OEM). Balanceo de carga laboral entre técnicos. Alertas configurables de próximo vencimiento y solicitud automática de repuestos a compras.
+                            </div>
+                            <div class="border-l-2 border-[#00A8E8] pl-3">
+                                <strong class="text-[#051923] block mb-1">Mantenimiento Predictivo (Machine Learning)</strong>
+                                Análisis de tendencias de fallas históricas y telemetría de sensores IoT. Identificación de degradación de componentes antes de la parada catastrófica del equipo.
+                            </div>
+                            <div class="border-l-2 border-[#00A8E8] pl-3">
+                                <strong class="text-[#051923] block mb-1">Trazabilidad Metrológica (ISO 9001)</strong>
+                                Gestión completa de certificados de calibración, patrones metrológicos e historial de resultados. Alertas de calibración próxima a vencer con N días de anticipación configurable.
+                            </div>
+                            <div class="border-l-2 border-[#00A8E8] pl-3">
+                                <strong class="text-[#051923] block mb-1">KPIs Hospitalarios Automáticos</strong>
+                                Cálculo en tiempo real de MTBF, MTTR, NDS y OEE (Eficiencia Global del Equipo). Dashboards por área clínica, tipo de equipo y período.
+                            </div>
+                            <div class="border-l-2 border-[#00A8E8] pl-3">
+                                <strong class="text-[#051923] block mb-1">Alertas de Obsolescencia Tecnológica</strong>
+                                Evaluación automática: costo acumulado de mantenimiento vs. valor residual del equipo. Generación del dictamen técnico de baja con respaldo de datos históricos.
+                            </div>
+                            <div class="border-l-2 border-[#00A8E8] pl-3">
+                                <strong class="text-[#051923] block mb-1">Gestión de Stock de Repuestos</strong>
+                                Descuento automático de inventario al cerrar OTs. Puntos de reorden inteligentes para evitar ruptura de stock. Reducción de capital inmovilizado en almacén.
+                            </div>
+                            <div class="border-l-2 border-[#00A8E8] pl-3">
+                                <strong class="text-[#051923] block mb-1">Análisis de Costo Total de Propiedad (TCO)</strong>
+                                Consolidación: horas-hombre, repuestos y lucro cesante por downtime. Informes para justificar adquisiciones ante dirección con datos contrastados y empíricos.
+                            </div>
+                            <div class="border-l-2 border-[#00A8E8] pl-3">
+                                <strong class="text-[#051923] block mb-1">Control de Competencias del Personal</strong>
+                                Registro de certificaciones de técnicos. Bloqueo de asignación si el técnico no posee la habilitación requerida para el equipo (anestesia, imagenología, laboratorio).
+                            </div>
+                            <div class="border-l-2 border-[#00A8E8] pl-3">
+                                <strong class="text-[#051923] block mb-1">Cumplimiento para Acreditaciones (JCI / ISO)</strong>
+                                Módulo de trazabilidad documental para requerimientos JCI, ISO 15189 y ANMAT. Evidencia auditable lista para inspecciones sorpresa, sin búsqueda manual.
+                            </div>
+                            <div class="border-l-2 border-[#00A8E8] pl-3">
+                                <strong class="text-[#051923] block mb-1">Planes de Contingencia Operativos</strong>
+                                Definición y acceso inmediato a protocolos ante indisponibilidad de equipos de soporte vital. Accesibles desde app móvil en campo para respuesta inmediata.
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="bg-white rounded-xl p-6 border border-gray-100 shadow-sm h-full flex flex-col justify-center">
+                            <h4 class="text-center font-bold text-gray-600 mb-2">Impacto en la Disponibilidad del Equipamiento (MTTR)</h4>
+                            <p class="text-xs text-center text-gray-400 mb-6">Reducción esperada del Tiempo Medio de Reparación con gestión digitalizada.</p>
+                            <div class="chart-container">
+                                <canvas id="clinicaChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold text-[#051923] mb-6 pl-2 border-l-4 border-[#00A8E8]">Flujos Operativos Requeridos</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                <div class="bg-white p-6 rounded-xl card-shadow border-t border-gray-100 hover:border-[#00A8E8] transition-colors">
+                    <div class="bg-blue-100 text-[#00A8E8] w-12 h-12 rounded-lg flex items-center justify-center text-2xl mb-4">🚨</div>
+                    <h4 class="font-bold text-[#051923] mb-3">Flujo de Llamado Correctivo</h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex gap-2"><span class="text-[#00A8E8] font-bold shrink-0">1.</span>Enfermera escanea el QR del equipo desde su móvil y reporta la falla.</li>
+                        <li class="flex gap-2"><span class="text-[#00A8E8] font-bold shrink-0">2.</span>El sistema notifica (push) al biomédico de turno disponible con la OT asignada.</li>
+                        <li class="flex gap-2"><span class="text-[#00A8E8] font-bold shrink-0">3.</span>El técnico consulta historial de fallas, manuales y repuestos disponibles desde su tablet.</li>
+                        <li class="flex gap-2"><span class="text-[#00A8E8] font-bold shrink-0">4.</span>Cierre con firma digital, tipificación de causa y retorno del equipo a estado "Operativo".</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-xl card-shadow border-t border-gray-100 hover:border-[#00A8E8] transition-colors">
+                    <div class="bg-blue-100 text-[#00A8E8] w-12 h-12 rounded-lg flex items-center justify-center text-2xl mb-4">📅</div>
+                    <h4 class="font-bold text-[#051923] mb-3">Flujo de Planificación y Calibración</h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex gap-2"><span class="text-[#00A8E8] font-bold shrink-0">1.</span>El sistema carga rutinas OEM y genera cronograma anual de 52 semanas.</li>
+                        <li class="flex gap-2"><span class="text-[#00A8E8] font-bold shrink-0">2.</span>Alertas de "Calibración Próxima a Vencer" con anticipación configurable.</li>
+                        <li class="flex gap-2"><span class="text-[#00A8E8] font-bold shrink-0">3.</span>Solicitud automática de kits de repuestos a compras previo al mantenimiento.</li>
+                        <li class="flex gap-2"><span class="text-[#00A8E8] font-bold shrink-0">4.</span>Archivo del certificado de calibración vinculado al activo con trazabilidad ISO 9001.</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-xl card-shadow border-t border-gray-100 hover:border-[#00A8E8] transition-colors">
+                    <div class="bg-blue-100 text-[#00A8E8] w-12 h-12 rounded-lg flex items-center justify-center text-2xl mb-4">📈</div>
+                    <h4 class="font-bold text-[#051923] mb-3">Flujo de Evaluación de Compra (TCO)</h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex gap-2"><span class="text-[#00A8E8] font-bold shrink-0">1.</span>La Dirección solicita justificación técnica para renovar equipos de imagenología.</li>
+                        <li class="flex gap-2"><span class="text-[#00A8E8] font-bold shrink-0">2.</span>El gestor extrae el TCO: adquisición + reparaciones + downtime en N años.</li>
+                        <li class="flex gap-2"><span class="text-[#00A8E8] font-bold shrink-0">3.</span>El sistema identifica equipos que superaron el 30% de su valor en reparaciones.</li>
+                        <li class="flex gap-2"><span class="text-[#00A8E8] font-bold shrink-0">4.</span>Generación automática del dictamen técnico de baja y justificación de compra.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== VISTA: MANTENIMIENTO PREDIAL ===================== -->
+        <div id="view-predial" class="app-view hidden fade-in">
+            <button onclick="switchView('view-home')" class="mb-6 flex items-center text-[#00CECB] font-bold hover:underline bg-white px-4 py-2 rounded-lg shadow-sm w-max border border-gray-100 transition-colors hover:bg-gray-50">
+                <span class="mr-2 text-xl">←</span> Volver al Panel Principal
+            </button>
+
+            <div class="bg-white rounded-2xl card-shadow p-8 md:p-12 mb-8 border-t-8 border-[#00CECB]">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="text-5xl text-[#00CECB]">⚙️</div>
+                    <div>
+                        <h2 class="text-3xl font-extrabold text-[#051923]">Infraestructura y Mantenimiento Predial</h2>
+                        <p class="text-gray-500 font-medium">Facilities Management hospitalario con sensorización IoT y control de consumos críticos.</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div>
+                        <div class="bg-white rounded-xl p-6 border border-gray-100 shadow-sm h-full flex flex-col justify-center">
+                            <h4 class="text-center font-bold text-gray-600 mb-2">Monitorización IoT: Detección de Anomalías en Consumos</h4>
+                            <p class="text-xs text-center text-gray-400 mb-6">Detección temprana de fugas y consumos anómalos mediante sensores integrados en red.</p>
+                            <div class="chart-container">
+                                <canvas id="predialChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                        <h3 class="text-xl font-bold mb-4 flex items-center text-[#051923]">
+                            <span class="bg-[#00CECB] text-white w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">✓</span>
+                            Requerimientos Funcionales
+                        </h3>
+                        <div class="max-h-[420px] overflow-y-auto custom-scroll pr-4 space-y-4 text-sm text-gray-700">
+                            <div class="border-l-2 border-[#00CECB] pl-3">
+                                <strong class="text-[#051923] block mb-1">Sensorización IoT Integrada</strong>
+                                Monitoreo en tiempo real de temperatura, humedad, consumo eléctrico y presión de gases medicinales (O₂, aire comprimido, vacío, N₂O) mediante sensores inalámbricos distribuidos.
+                            </div>
+                            <div class="border-l-2 border-[#00CECB] pl-3">
+                                <strong class="text-[#051923] block mb-1">Alarmas Automáticas por Parámetros Críticos</strong>
+                                Alertas push configurables por rango paramétrico. Generación automática de OT urgente ante anomalías detectadas por sensores (temperatura de cadena de frío, presión de gases).
+                            </div>
+                            <div class="border-l-2 border-[#00CECB] pl-3">
+                                <strong class="text-[#051923] block mb-1">Gestión de Activos de Infraestructura</strong>
+                                Mapeo del patrimonio predial: subestaciones eléctricas, calderas, chillers, HVAC, generadores de emergencia, elevadores, redes hidráulicas y mobiliario hospitalario.
+                            </div>
+                            <div class="border-l-2 border-[#00CECB] pl-3">
+                                <strong class="text-[#051923] block mb-1">Reducción de Costos de Suministros</strong>
+                                Algoritmos de detección de fugas invisibles de agua, gases y consumos eléctricos anómalos. Dashboard de tendencias de consumo por área, horario y período para auditoría energética.
+                            </div>
+                            <div class="border-l-2 border-[#00CECB] pl-3">
+                                <strong class="text-[#051923] block mb-1">Gestión de Proyectos y Obras Civiles</strong>
+                                Control de remodelaciones sectorizadas y obras. Gestión de aislamientos de áreas críticas durante trabajos. Seguimiento de cronogramas con avances reportados vía app móvil.
+                            </div>
+                            <div class="border-l-2 border-[#00CECB] pl-3">
+                                <strong class="text-[#051923] block mb-1">Control de Contratistas y Documentación</strong>
+                                Verificación de seguros, habilitaciones y pólizas de contratistas de obra antes del ingreso a áreas críticas. Portal de carga documental para proveedores externos.
+                            </div>
+                            <div class="border-l-2 border-[#00CECB] pl-3">
+                                <strong class="text-[#051923] block mb-1">Dimensionamiento de Talleres</strong>
+                                Medición de carga laboral por especialidad técnica (electricistas, plomeros, climatización, carpintería). Justificación de contratación de personal basada en datos operativos reales.
+                            </div>
+                            <div class="border-l-2 border-[#00CECB] pl-3">
+                                <strong class="text-[#051923] block mb-1">Mantenimiento Predictivo de Maquinaria Pesada</strong>
+                                Sensores de vibración, temperatura y corriente en HVAC, chillers y calderas. Alimentación del algoritmo ML para anticipar fallas antes de paradas no programadas de servicio.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold text-[#051923] mb-6 pl-2 border-l-4 border-[#00CECB]">Flujos Operativos Requeridos</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                <div class="bg-white p-6 rounded-xl card-shadow border-t border-gray-100 hover:border-[#00CECB] transition-colors">
+                    <div class="bg-teal-100 text-[#00CECB] w-12 h-12 rounded-lg flex items-center justify-center text-2xl mb-4">🌡️</div>
+                    <h4 class="font-bold text-[#051923] mb-3">Flujo de Alarma IoT (Cadena de Frío)</h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex gap-2"><span class="text-[#00CECB] font-bold shrink-0">1.</span>Sensor IoT detecta temperatura anormal en refrigerador de vacunas o medicamentos.</li>
+                        <li class="flex gap-2"><span class="text-[#00CECB] font-bold shrink-0">2.</span>El sistema dispara alerta prioritaria push al supervisor de mantenimiento predial.</li>
+                        <li class="flex gap-2"><span class="text-[#00CECB] font-bold shrink-0">3.</span>Se genera automáticamente la OT urgente con el historial del activo adjunto.</li>
+                        <li class="flex gap-2"><span class="text-[#00CECB] font-bold shrink-0">4.</span>El técnico soluciona el fallo; el sistema registra el evento para trazabilidad de cadena de frío.</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-xl card-shadow border-t border-gray-100 hover:border-[#00CECB] transition-colors">
+                    <div class="bg-teal-100 text-[#00CECB] w-12 h-12 rounded-lg flex items-center justify-center text-2xl mb-4">🏨</div>
+                    <h4 class="font-bold text-[#051923] mb-3">Flujo de Habilitación de Área Crítica</h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex gap-2"><span class="text-[#00CECB] font-bold shrink-0">1.</span>Un quirófano es liberado para mantenimiento integral (HVAC, iluminación, mobiliario).</li>
+                        <li class="flex gap-2"><span class="text-[#00CECB] font-bold shrink-0">2.</span>Se lanza un proyecto multidisciplinario con tareas asignadas por especialidad técnica.</li>
+                        <li class="flex gap-2"><span class="text-[#00CECB] font-bold shrink-0">3.</span>Cada técnico reporta sus avances en tiempo real desde dispositivos móviles.</li>
+                        <li class="flex gap-2"><span class="text-[#00CECB] font-bold shrink-0">4.</span>El sistema habilita el área solo cuando todas las tareas están cerradas y verificadas.</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-xl card-shadow border-t border-gray-100 hover:border-[#00CECB] transition-colors">
+                    <div class="bg-teal-100 text-[#00CECB] w-12 h-12 rounded-lg flex items-center justify-center text-2xl mb-4">⚡</div>
+                    <h4 class="font-bold text-[#051923] mb-3">Flujo de Auditoría Energética</h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex gap-2"><span class="text-[#00CECB] font-bold shrink-0">1.</span>El sistema integra datos de tableros eléctricos y consolida el perfil de consumo por área.</li>
+                        <li class="flex gap-2"><span class="text-[#00CECB] font-bold shrink-0">2.</span>Dashboards detectan picos de consumo injustificados por área y horario nocturno.</li>
+                        <li class="flex gap-2"><span class="text-[#00CECB] font-bold shrink-0">3.</span>Auditoría identifica sistemas operando sin necesidad (HVAC en áreas sin actividad).</li>
+                        <li class="flex gap-2"><span class="text-[#00CECB] font-bold shrink-0">4.</span>Se generan recomendaciones con proyección de ahorro mensual cuantificable.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== VISTA: ASISTENCIA TÉCNICA ===================== -->
+        <div id="view-asistencia" class="app-view hidden fade-in">
+            <button onclick="switchView('view-home')" class="mb-6 flex items-center text-[#FF9F1C] font-bold hover:underline bg-white px-4 py-2 rounded-lg shadow-sm w-max border border-gray-100 transition-colors hover:bg-gray-50">
+                <span class="mr-2 text-xl">←</span> Volver al Panel Principal
+            </button>
+
+            <div class="bg-white rounded-2xl card-shadow p-8 md:p-12 mb-8 border-t-8 border-[#FF9F1C]">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="text-5xl text-[#FF9F1C]">🤝</div>
+                    <div>
+                        <h2 class="text-3xl font-extrabold text-[#051923]">Asistencia Técnica y Gestión de Proveedores</h2>
+                        <p class="text-gray-500 font-medium">Control financiero y operativo sobre contratos de servicios externalizados e ISO.</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                        <h3 class="text-xl font-bold mb-4 flex items-center text-[#051923]">
+                            <span class="bg-[#FF9F1C] text-white w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">✓</span>
+                            Requerimientos Funcionales
+                        </h3>
+                        <div class="max-h-[420px] overflow-y-auto custom-scroll pr-4 space-y-4 text-sm text-gray-700">
+                            <div class="border-l-2 border-[#FF9F1C] pl-3">
+                                <strong class="text-[#051923] block mb-1">App Móvil Offline para Técnicos Externos</strong>
+                                Permite a técnicos de proveedores externos reportar en zonas sin Wi-Fi (sótanos, radioterapia) y sincronizar automáticamente al recuperar conexión.
+                            </div>
+                            <div class="border-l-2 border-[#FF9F1C] pl-3">
+                                <strong class="text-[#051923] block mb-1">Administración de Contratos y SLA</strong>
+                                Configuración de reglas de negocio: coberturas de repuestos, viáticos, horarios hábiles, penalidades por incumplimiento y modalidades (Full, On Demand, Garantía, Comodato).
+                            </div>
+                            <div class="border-l-2 border-[#FF9F1C] pl-3">
+                                <strong class="text-[#051923] block mb-1">Cronómetro Automático de Respuesta SLA</strong>
+                                Al reportar falla en equipo tercerizado, el sistema inicia el cronómetro automáticamente. Alertas escalonadas si el proveedor supera los tiempos contractuales acordados.
+                            </div>
+                            <div class="border-l-2 border-[#FF9F1C] pl-3">
+                                <strong class="text-[#051923] block mb-1">Evaluación Cualitativa (Scoring de Proveedores)</strong>
+                                Puntuación multidimensional: puntualidad, limpieza, eficacia en primera visita, calidad documental y costo-beneficio. Evidencia para renovar o cambiar proveedores.
+                            </div>
+                            <div class="border-l-2 border-[#FF9F1C] pl-3">
+                                <strong class="text-[#051923] block mb-1">Gestión de Comodatos y Equipos de Terceros</strong>
+                                Control sobre equipos que no son del hospital pero operan allí (analizadores, equipos de diagnóstico en comodato). Exige mantenimiento al propietario y registra todas las intervenciones.
+                            </div>
+                            <div class="border-l-2 border-[#FF9F1C] pl-3">
+                                <strong class="text-[#051923] block mb-1">Control de Garantías y Prevención de Doble Pago</strong>
+                                Bloqueo automático de cotizaciones cuando el componente posee garantía vigente. Alerta al área de compras con los datos del contrato activo para exigir reemplazo sin costo.
+                            </div>
+                            <div class="border-l-2 border-[#FF9F1C] pl-3">
+                                <strong class="text-[#051923] block mb-1">Portal Unificado de Proveedores (Extranet)</strong>
+                                Plataforma donde contratistas cargan certificados técnicos, habilitaciones y pólizas de seguro vigentes. Control de acceso a áreas críticas basado en documentación al día.
+                            </div>
+                            <div class="border-l-2 border-[#FF9F1C] pl-3">
+                                <strong class="text-[#051923] block mb-1">Geolocalización de Técnicos en Campo</strong>
+                                Seguimiento en tiempo real de técnicos externos. Gestión unificada de agendas de talleres tercerizados y optimización de despacho por cercanía.
+                            </div>
+                            <div class="border-l-2 border-[#FF9F1C] pl-3">
+                                <strong class="text-[#051923] block mb-1">Auditoría Financiera de Contratos</strong>
+                                Cruce automático del costo anual del contrato vs. intervenciones reales realizadas. Reportes para renegociación de condiciones basados en datos históricos duros.
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="bg-white rounded-xl p-6 border border-gray-100 shadow-sm h-full flex flex-col justify-center">
+                            <h4 class="text-center font-bold text-gray-600 mb-2">Scoring de Proveedores: Evaluación Multidimensional</h4>
+                            <p class="text-xs text-center text-gray-400 mb-6">Comparativa para decidir renovaciones de contratos de mantenimiento tercerizado.</p>
+                            <div class="chart-container">
+                                <canvas id="asistenciaChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold text-[#051923] mb-6 pl-2 border-l-4 border-[#FF9F1C]">Flujos Operativos Requeridos</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                <div class="bg-white p-6 rounded-xl card-shadow border-t border-gray-100 hover:border-[#FF9F1C] transition-colors">
+                    <div class="bg-orange-100 text-[#FF9F1C] w-12 h-12 rounded-lg flex items-center justify-center text-2xl mb-4">🧾</div>
+                    <h4 class="font-bold text-[#051923] mb-3">Flujo de Control de Garantías</h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex gap-2"><span class="text-[#FF9F1C] font-bold shrink-0">1.</span>Falla un componente mayor. Compras solicita cotización de reparación al proveedor.</li>
+                        <li class="flex gap-2"><span class="text-[#FF9F1C] font-bold shrink-0">2.</span>El sistema bloquea el proceso, alertando que el componente tiene garantía vigente.</li>
+                        <li class="flex gap-2"><span class="text-[#FF9F1C] font-bold shrink-0">3.</span>Se exige reemplazo sin costo al fabricante con la documentación contractual como respaldo.</li>
+                        <li class="flex gap-2"><span class="text-[#FF9F1C] font-bold shrink-0">4.</span>Ahorro directo cuantificado y registrado en el historial financiero del activo.</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-xl card-shadow border-t border-gray-100 hover:border-[#FF9F1C] transition-colors">
+                    <div class="bg-orange-100 text-[#FF9F1C] w-12 h-12 rounded-lg flex items-center justify-center text-2xl mb-4">⚖️</div>
+                    <h4 class="font-bold text-[#051923] mb-3">Flujo de Auditoría Financiera</h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex gap-2"><span class="text-[#FF9F1C] font-bold shrink-0">1.</span>Fin de año: el hospital debe decidir si renueva el contrato Full de equipos de alta complejidad.</li>
+                        <li class="flex gap-2"><span class="text-[#FF9F1C] font-bold shrink-0">2.</span>El sistema cruza el costo anual del contrato vs. las intervenciones reales del período.</li>
+                        <li class="flex gap-2"><span class="text-[#FF9F1C] font-bold shrink-0">3.</span>El reporte demuestra la modalidad más económica con datos empíricos contrastados.</li>
+                        <li class="flex gap-2"><span class="text-[#FF9F1C] font-bold shrink-0">4.</span>La administración renegocia condiciones con el fabricante respaldada en evidencia del sistema.</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-xl card-shadow border-t border-gray-100 hover:border-[#FF9F1C] transition-colors">
+                    <div class="bg-orange-100 text-[#FF9F1C] w-12 h-12 rounded-lg flex items-center justify-center text-2xl mb-4">🪪</div>
+                    <h4 class="font-bold text-[#051923] mb-3">Flujo de Ingreso de Técnico Externo</h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex gap-2"><span class="text-[#FF9F1C] font-bold shrink-0">1.</span>Técnico externo llega a recepción para realizar mantenimiento de equipo bajo contrato.</li>
+                        <li class="flex gap-2"><span class="text-[#FF9F1C] font-bold shrink-0">2.</span>Seguridad consulta el portal: el técnico no tiene el seguro de riesgos laborales vigente.</li>
+                        <li class="flex gap-2"><span class="text-[#FF9F1C] font-bold shrink-0">3.</span>Se deniega el acceso hasta que su empresa actualice la documentación en el sistema.</li>
+                        <li class="flex gap-2"><span class="text-[#FF9F1C] font-bold shrink-0">4.</span>Protección total contra responsabilidades civiles para la institución sanitaria.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== VISTA: PLATAFORMA TECNOLÓGICA ===================== -->
+        <div id="view-tecnologia" class="app-view hidden fade-in">
+            <button onclick="switchView('view-home')" class="mb-6 flex items-center text-purple-600 font-bold hover:underline bg-white px-4 py-2 rounded-lg shadow-sm w-max border border-gray-100 transition-colors hover:bg-gray-50">
+                <span class="mr-2 text-xl">←</span> Volver al Panel Principal
+            </button>
+
+            <div class="bg-white rounded-2xl card-shadow p-8 md:p-12 mb-8 border-t-8 border-purple-500">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="text-5xl text-purple-500">🔬</div>
+                    <div>
+                        <h2 class="text-3xl font-extrabold text-[#051923]">Plataforma Tecnológica</h2>
+                        <p class="text-gray-500 font-medium">Requerimientos de arquitectura técnica, conectividad IoT, integraciones y seguridad.</p>
+                    </div>
+                </div>
+
+                <!-- IoT Protocols -->
+                <div class="mb-10">
+                    <h3 class="text-xl font-bold text-[#051923] mb-5 flex items-center gap-2">
+                        <span class="text-2xl">📡</span> Requerimientos de Conectividad IoT
+                    </h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                        <div class="bg-purple-50 rounded-xl p-4 text-center border border-purple-100">
+                            <div class="text-2xl mb-2">🌐</div>
+                            <div class="font-bold text-purple-700 text-sm">LoRaWAN</div>
+                            <div class="text-xs text-gray-500 mt-1">Red de largo alcance y bajo consumo para sensores distribuidos en todo el hospital.</div>
+                        </div>
+                        <div class="bg-purple-50 rounded-xl p-4 text-center border border-purple-100">
+                            <div class="text-2xl mb-2">📶</div>
+                            <div class="font-bold text-purple-700 text-sm">Sigfox</div>
+                            <div class="text-xs text-gray-500 mt-1">Red LPWAN para telemetría de bajo consumo y cobertura amplia en el edificio.</div>
+                        </div>
+                        <div class="bg-purple-50 rounded-xl p-4 text-center border border-purple-100">
+                            <div class="text-2xl mb-2">📱</div>
+                            <div class="font-bold text-purple-700 text-sm">NB-IoT</div>
+                            <div class="text-xs text-gray-500 mt-1">Protocolo celular de alta penetración para sótanos y zonas Sub-GHz.</div>
+                        </div>
+                        <div class="bg-purple-50 rounded-xl p-4 text-center border border-purple-100">
+                            <div class="text-2xl mb-2">🔌</div>
+                            <div class="font-bold text-purple-700 text-sm">RS-485</div>
+                            <div class="text-xs text-gray-500 mt-1">Estándar industrial para maquinaria pesada: calderas, chillers, HVAC y compresores.</div>
+                        </div>
+                        <div class="bg-purple-50 rounded-xl p-4 text-center border border-purple-100">
+                            <div class="text-2xl mb-2">🔵</div>
+                            <div class="font-bold text-purple-700 text-sm">BLE / Zigbee</div>
+                            <div class="text-xs text-gray-500 mt-1">Bluetooth Low Energy y Zigbee para sensores en habitaciones y quirófanos.</div>
+                        </div>
+                        <div class="bg-purple-50 rounded-xl p-4 text-center border border-purple-100">
+                            <div class="text-2xl mb-2">☁️</div>
+                            <div class="font-bold text-purple-700 text-sm">Cloud IoT</div>
+                            <div class="text-xs text-gray-500 mt-1">Plataformas cloud para concentración, análisis y visualización de datos de sensores.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Integraciones + ML -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-10">
+                    <div>
+                        <h3 class="text-xl font-bold text-[#051923] mb-5 flex items-center gap-2">
+                            <span class="text-2xl">🔗</span> Requerimientos de Integración con Sistemas Hospitalarios
+                        </h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-purple-500 text-lg shrink-0">⚡</span>
+                                <div>
+                                    <strong class="block text-[#051923]">API RESTful Bidireccional con ERP</strong>
+                                    <span class="text-gray-600">Sincronización de costos de mantenimiento, OC de repuestos y necesidades de reabastecimiento hacia el módulo financiero del ERP hospitalario.</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-purple-500 text-lg shrink-0">🏥</span>
+                                <div>
+                                    <strong class="block text-[#051923]">Integración con HIS / EHR</strong>
+                                    <span class="text-gray-600">Consulta de disponibilidad de equipos por parte del HIS. Notificación de estado operativo para coordinación con agendamiento clínico.</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-purple-500 text-lg shrink-0">🔐</span>
+                                <div>
+                                    <strong class="block text-[#051923]">SSO con Directorios Corporativos</strong>
+                                    <span class="text-gray-600">Autenticación única via Microsoft Active Directory, Office 365 y Google Workspace. Revocación automática de accesos al desvincular empleados.</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-purple-500 text-lg shrink-0">📧</span>
+                                <div>
+                                    <strong class="block text-[#051923]">Notificaciones Multicanal</strong>
+                                    <span class="text-gray-600">Alertas por push (app), email, SMS y webhooks. Escalado automático según criticidad y tiempo sin resolución de la incidencia.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-[#051923] mb-5 flex items-center gap-2">
+                            <span class="text-2xl">🧠</span> Requerimientos de Machine Learning e IA
+                        </h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-purple-500 text-lg shrink-0">📉</span>
+                                <div>
+                                    <strong class="block text-[#051923]">Predicción de Fallas por Tendencias</strong>
+                                    <span class="text-gray-600">Análisis de frecuencia histórica, patrones de vibración y telemetría de sensores para identificar degradación antes de la parada imprevista.</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-purple-500 text-lg shrink-0">⚖️</span>
+                                <div>
+                                    <strong class="block text-[#051923]">Optimización de Carga Laboral</strong>
+                                    <span class="text-gray-600">Algoritmo de balanceo para asignar OTs según disponibilidad, cercanía y competencias del técnico, minimizando tiempos de respuesta.</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-purple-500 text-lg shrink-0">📦</span>
+                                <div>
+                                    <strong class="block text-[#051923]">Gestión Inteligente de Stock</strong>
+                                    <span class="text-gray-600">Predicción de demanda de repuestos basada en historial de consumo, temporada y plan preventivo. Puntos de reorden automáticos y dinámicos.</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-purple-500 text-lg shrink-0">🔍</span>
+                                <div>
+                                    <strong class="block text-[#051923]">Detección de Anomalías en Consumos IoT</strong>
+                                    <span class="text-gray-600">Modelos de baseline de consumo normal por área y horario. Detección automática de desviaciones que indiquen fugas o malfuncionamiento.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Movilidad + Seguridad -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    <div>
+                        <h3 class="text-xl font-bold text-[#051923] mb-5 flex items-center gap-2">
+                            <span class="text-2xl">📱</span> Requerimientos de Movilidad
+                        </h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-purple-500 font-bold shrink-0">✓</span>
+                                <span class="text-gray-700">App nativa iOS y Android para técnicos, supervisores y gestores hospitalarios.</span>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-purple-500 font-bold shrink-0">✓</span>
+                                <span class="text-gray-700">Modo Offline completo: apertura, gestión y cierre de OTs sin conexión a internet.</span>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-purple-500 font-bold shrink-0">✓</span>
+                                <span class="text-gray-700">Escaneo de QR y códigos de barras para identificación instantánea de activos.</span>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-purple-500 font-bold shrink-0">✓</span>
+                                <span class="text-gray-700">Acceso a manuales técnicos, planos e historial del activo desde dispositivo móvil.</span>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-purple-500 font-bold shrink-0">✓</span>
+                                <span class="text-gray-700">Captura de evidencia fotográfica y firma digital para cierre de órdenes de trabajo.</span>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-purple-500 font-bold shrink-0">✓</span>
+                                <span class="text-gray-700">Sincronización automática al recuperar conectividad, sin pérdida de datos operativos.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-[#051923] mb-5 flex items-center gap-2">
+                            <span class="text-2xl">🔐</span> Requerimientos de Seguridad y Arquitectura
+                        </h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-purple-500 font-bold shrink-0">✓</span>
+                                <span class="text-gray-700">Arquitectura Cloud con alta disponibilidad (99.9% uptime) y redundancia geográfica.</span>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-purple-500 font-bold shrink-0">✓</span>
+                                <span class="text-gray-700">Cifrado en tránsito (TLS 1.3) y en reposo (AES-256) para todos los datos clínicos.</span>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-purple-500 font-bold shrink-0">✓</span>
+                                <span class="text-gray-700">Log inmutable de cada acción realizada por usuario con timestamp certificado.</span>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-purple-500 font-bold shrink-0">✓</span>
+                                <span class="text-gray-700">Control de roles y permisos granulares por módulo, área del hospital y tipo de activo.</span>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-purple-500 font-bold shrink-0">✓</span>
+                                <span class="text-gray-700">Autenticación multifactor (MFA) para accesos desde redes externas o dispositivos nuevos.</span>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-purple-500 font-bold shrink-0">✓</span>
+                                <span class="text-gray-700">Diseño modular y escalable: desde hospitales regionales hasta complejos universitarios de alta complejidad.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl card-shadow p-8 mb-16">
+                <h3 class="text-xl font-bold text-[#051923] mb-2 text-center">Distribución de Requerimientos Tecnológicos por Capa</h3>
+                <p class="text-sm text-gray-500 text-center mb-6">Peso relativo de cada capa tecnológica en la arquitectura de Biomedical Core.</p>
+                <div class="chart-container" style="max-width: 480px;">
+                    <canvas id="tecnologiaChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== VISTA: CUMPLIMIENTO Y ACREDITACIÓN ===================== -->
+        <div id="view-cumplimiento" class="app-view hidden fade-in">
+            <button onclick="switchView('view-home')" class="mb-6 flex items-center text-green-600 font-bold hover:underline bg-white px-4 py-2 rounded-lg shadow-sm w-max border border-gray-100 transition-colors hover:bg-gray-50">
+                <span class="mr-2 text-xl">←</span> Volver al Panel Principal
+            </button>
+
+            <div class="bg-white rounded-2xl card-shadow p-8 md:p-12 mb-8 border-t-8 border-green-500">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="text-5xl text-green-500">✅</div>
+                    <div>
+                        <h2 class="text-3xl font-extrabold text-[#051923]">Cumplimiento, Acreditación y KPIs</h2>
+                        <p class="text-gray-500 font-medium">Trazabilidad documental, normativas internacionales e indicadores clave de gestión hospitalaria.</p>
+                    </div>
+                </div>
+
+                <!-- Normativas -->
+                <div class="mb-10">
+                    <h3 class="text-xl font-bold text-[#051923] mb-5 flex items-center gap-2">
+                        <span class="text-2xl">🏅</span> Normativas y Estándares que el Sistema Debe Facilitar
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                        <div class="bg-green-50 rounded-xl p-5 border border-green-100">
+                            <div class="font-extrabold text-green-700 text-xl mb-1">JCI</div>
+                            <div class="text-sm font-bold text-[#051923] mb-3">Joint Commission International</div>
+                            <ul class="text-xs text-gray-600 space-y-1">
+                                <li>• Inventario tecnológico actualizado en tiempo real.</li>
+                                <li>• Historial exhaustivo de fallas e intervenciones.</li>
+                                <li>• Control de competencias técnicas del personal.</li>
+                                <li>• Planes de contingencia documentados y accesibles.</li>
+                                <li>• KPIs de mejora continua con tendencias históricas.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-50 rounded-xl p-5 border border-green-100">
+                            <div class="font-extrabold text-green-700 text-xl mb-1">ISO 15189</div>
+                            <div class="text-sm font-bold text-[#051923] mb-3">Laboratorios Clínicos</div>
+                            <ul class="text-xs text-gray-600 space-y-1">
+                                <li>• Trazabilidad metrológica de equipos de diagnóstico.</li>
+                                <li>• Certificados de calibración con patrones vinculados.</li>
+                                <li>• Cumplimiento CLSI GP26-A3 para documentación.</li>
+                                <li>• Evidencia auditable por tipo de instrumento.</li>
+                                <li>• Alertas de vencimiento de calibraciones críticas.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-50 rounded-xl p-5 border border-green-100">
+                            <div class="font-extrabold text-green-700 text-xl mb-1">ISO 9001</div>
+                            <div class="text-sm font-bold text-[#051923] mb-3">Gestión de la Calidad</div>
+                            <ul class="text-xs text-gray-600 space-y-1">
+                                <li>• Registro de no conformidades en mantenimiento.</li>
+                                <li>• Ciclo PHVA (Planificar-Hacer-Verificar-Actuar).</li>
+                                <li>• KPIs de mejora continua con tendencias históricas.</li>
+                                <li>• Acciones correctivas y preventivas documentadas.</li>
+                                <li>• Control de documentos técnicos con versiones.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-50 rounded-xl p-5 border border-green-100">
+                            <div class="font-extrabold text-green-700 text-xl mb-1">HIMSS / ANMAT</div>
+                            <div class="text-sm font-bold text-[#051923] mb-3">Salud Digital y Regulación</div>
+                            <ul class="text-xs text-gray-600 space-y-1">
+                                <li>• Madurez digital en gestión de activos tecnológicos.</li>
+                                <li>• Trazabilidad para autoridades regulatorias locales.</li>
+                                <li>• Registros de mantenimiento según normativa ANMAT.</li>
+                                <li>• Interoperabilidad con sistemas de salud pública.</li>
+                                <li>• Reportes exportables para entes reguladores.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPIs -->
+                <div class="mb-10">
+                    <h3 class="text-xl font-bold text-[#051923] mb-5 flex items-center gap-2">
+                        <span class="text-2xl">📊</span> KPIs Requeridos en el Sistema
+                    </h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                        <div class="bg-[#051923] rounded-xl p-4 text-center text-white">
+                            <div class="text-xl font-extrabold text-[#00A8E8] mb-1">MTBF</div>
+                            <div class="text-xs font-bold mb-2">Tiempo Medio Entre Fallas</div>
+                            <div class="text-xs text-gray-400">Confiabilidad del parque tecnológico por tipo de equipo y servicio clínico.</div>
+                        </div>
+                        <div class="bg-[#051923] rounded-xl p-4 text-center text-white">
+                            <div class="text-xl font-extrabold text-[#00CECB] mb-1">MTTR</div>
+                            <div class="text-xs font-bold mb-2">Tiempo Medio de Reparación</div>
+                            <div class="text-xs text-gray-400">Eficiencia del equipo técnico para resolver incidencias críticas en tiempo.</div>
+                        </div>
+                        <div class="bg-[#051923] rounded-xl p-4 text-center text-white">
+                            <div class="text-xl font-extrabold text-[#FF9F1C] mb-1">NDS</div>
+                            <div class="text-xs font-bold mb-2">Nivel de Servicio</div>
+                            <div class="text-xs text-gray-400">% de OTs resueltas dentro del SLA acordado por criticidad del equipo.</div>
+                        </div>
+                        <div class="bg-[#051923] rounded-xl p-4 text-center text-white">
+                            <div class="text-xl font-extrabold text-purple-400 mb-1">OEE</div>
+                            <div class="text-xs font-bold mb-2">Eficiencia Global del Equipo</div>
+                            <div class="text-xs text-gray-400">Disponibilidad × Rendimiento × Calidad. Productividad real del activo médico.</div>
+                        </div>
+                        <div class="bg-[#051923] rounded-xl p-4 text-center text-white">
+                            <div class="text-xl font-extrabold text-green-400 mb-1">TCO</div>
+                            <div class="text-xs font-bold mb-2">Costo Total de Propiedad</div>
+                            <div class="text-xs text-gray-400">Adquisición + mantenimiento + repuestos + downtime para justificar renovación.</div>
+                        </div>
+                        <div class="bg-[#051923] rounded-xl p-4 text-center text-white">
+                            <div class="text-xl font-extrabold text-yellow-400 mb-1">ROI</div>
+                            <div class="text-xs font-bold mb-2">Retorno de Inversión</div>
+                            <div class="text-xs text-gray-400">Ahorro en downtime, contratos y suministros vs. costo de implementación.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trazabilidad + Seguridad Paciente -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    <div>
+                        <h3 class="text-xl font-bold text-[#051923] mb-5 flex items-center gap-2">
+                            <span class="text-2xl">📋</span> Requerimientos de Trazabilidad Documental
+                        </h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-green-500 font-bold shrink-0">✓</span>
+                                <span class="text-gray-700">Historial inmutable de cada activo: fallas, intervenciones, repuestos y técnicos desde la fecha de alta.</span>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-green-500 font-bold shrink-0">✓</span>
+                                <span class="text-gray-700">Evidencia fotográfica adjunta a cada OT (estado antes/después de la intervención técnica).</span>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-green-500 font-bold shrink-0">✓</span>
+                                <span class="text-gray-700">Firma digital de técnicos, supervisores y solicitantes en cada OT con timestamp certificado.</span>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-green-500 font-bold shrink-0">✓</span>
+                                <span class="text-gray-700">Tipificación obligatoria de causa de falla (falla técnica, desgaste, error de usuario, falla eléctrica).</span>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-green-500 font-bold shrink-0">✓</span>
+                                <span class="text-gray-700">Gestión documental: certificados de calibración, habilitaciones y manuales vinculados al activo.</span>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <span class="text-green-500 font-bold shrink-0">✓</span>
+                                <span class="text-gray-700">Exportación de reportes de auditoría en formatos estándar (PDF, Excel) para organismos acreditadores.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-[#051923] mb-5 flex items-center gap-2">
+                            <span class="text-2xl">🛡️</span> Impacto Directo en Seguridad del Paciente
+                        </h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex items-start gap-3 p-3 bg-red-50 rounded-lg border border-red-100">
+                                <span class="text-red-500 font-bold shrink-0">!</span>
+                                <span class="text-gray-700"><strong>Equipos de soporte vital disponibles</strong>: mantenimiento preventivo automático para desfibriladores, ventiladores y bombas de infusión.</span>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-red-50 rounded-lg border border-red-100">
+                                <span class="text-red-500 font-bold shrink-0">!</span>
+                                <span class="text-gray-700"><strong>Bloqueo de técnicos no habilitados</strong>: ningún equipo crítico puede ser intervenido por personal sin certificación vigente en el sistema.</span>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-red-50 rounded-lg border border-red-100">
+                                <span class="text-red-500 font-bold shrink-0">!</span>
+                                <span class="text-gray-700"><strong>Alertas de gases medicinales</strong>: monitoreo continuo de presión de O₂ y vacío con alarma inmediata en UCI y quirófanos.</span>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-red-50 rounded-lg border border-red-100">
+                                <span class="text-red-500 font-bold shrink-0">!</span>
+                                <span class="text-gray-700"><strong>Cadena de frío garantizada</strong>: sensores IoT en almacenamiento de vacunas, hemoderivados y reactivos termolábiles.</span>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-red-50 rounded-lg border border-red-100">
+                                <span class="text-red-500 font-bold shrink-0">!</span>
+                                <span class="text-gray-700"><strong>Reducción de responsabilidad civil</strong>: evidencia documental completa que demuestra diligencia técnica ante cualquier litigio.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl card-shadow p-8 mb-16">
+                <h3 class="text-xl font-bold text-[#051923] mb-2 text-center">Cobertura de Requerimientos por Estándar de Acreditación</h3>
+                <p class="text-sm text-gray-500 text-center mb-6">Grado de cobertura funcional que Biomedical Core debe proveer por cada normativa.</p>
+                <div class="chart-container">
+                    <canvas id="cumplimientoChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-[#051923] text-center pt-12 pb-8 px-6 text-gray-400 text-sm mt-12 border-t border-gray-800">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-3xl font-extrabold mb-2" style="background: linear-gradient(90deg, #00A8E8, #00CECB); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Biomedical Core</div>
+            <p class="mb-1">Infografía de Requerimientos del Sistema de Gestión de Mantenimiento Hospitalario (CMMS)</p>
+            <p class="text-gray-600">Plataforma integral para Ingeniería Clínica, Infraestructura Predial y Gestión de Proveedores.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Enrutador SPA ---
+        function switchView(targetId) {
+            document.querySelectorAll('.app-view').forEach(v => {
+                v.classList.add('hidden');
+                v.classList.remove('block');
+            });
+            const target = document.getElementById(targetId);
+            if (target) {
+                target.classList.remove('hidden');
+                target.classList.add('block');
+                window.dispatchEvent(new Event('resize'));
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            function wrapLabel(label) {
+                if (label.length <= 16) return label;
+                const words = label.split(' ');
+                let lines = [], current = '';
+                for (let w of words) {
+                    if ((current + w).length > 16) { if (current) lines.push(current.trim()); current = w + ' '; }
+                    else current += w + ' ';
+                }
+                if (current) lines.push(current.trim());
+                return lines;
+            }
+
+            const tooltipTitle = {
+                callbacks: {
+                    title(items) {
+                        const lbl = items[0].chart.data.labels[items[0].dataIndex];
+                        return Array.isArray(lbl) ? lbl.join(' ') : lbl;
+                    }
+                }
+            };
+
+            // Chart 1: MTTR Ingeniería Clínica
+            new Chart(document.getElementById('clinicaChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Soporte Vital', 'Imagenología', 'Laboratorio', 'Equipamiento General'].map(wrapLabel),
+                    datasets: [
+                        { label: 'Sin sistema (Horas)', data: [4.5, 18.2, 6.0, 8.5], backgroundColor: '#E5E7EB', borderRadius: 4 },
+                        { label: 'Con Biomedical Core (Horas)', data: [1.2, 6.4, 2.1, 2.8], backgroundColor: '#00A8E8', borderRadius: 4 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { y: { title: { display: true, text: 'Horas Promedio (MTTR)' } } },
+                    plugins: { legend: { position: 'top' }, tooltip: tooltipTitle }
+                }
+            });
+
+            // Chart 2: IoT Predial
+            new Chart(document.getElementById('predialChart'), {
+                type: 'line',
+                data: {
+                    labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie (Fuga)', 'Sáb (Reparación)', 'Dom'].map(wrapLabel),
+                    datasets: [{
+                        label: 'Consumo Oxígeno (L/min)',
+                        data: [210, 205, 215, 208, 380, 220, 205],
+                        borderColor: '#00CECB', backgroundColor: 'rgba(0,206,203,0.2)',
+                        fill: true, tension: 0.3,
+                        pointBackgroundColor: ['#00CECB','#00CECB','#00CECB','#00CECB','#EF4444','#00CECB','#00CECB'],
+                        pointRadius: [3,3,3,3,8,3,3]
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: tooltipTitle }
+                }
+            });
+
+            // Chart 3: Radar proveedores
+            new Chart(document.getElementById('asistenciaChart'), {
+                type: 'radar',
+                data: {
+                    labels: ['Tiempo Respuesta', 'Solución 1ra Visita', 'Calidad Documental', 'Trato al Cliente', 'Costo/Beneficio'].map(wrapLabel),
+                    datasets: [
+                        { label: 'Proveedor "A" (Fabricante)', data: [8,9,10,7,6], borderColor: '#FF9F1C', backgroundColor: 'rgba(255,159,28,0.2)', pointBackgroundColor: '#FF9F1C' },
+                        { label: 'Proveedor "B" (ISO Tercerizada)', data: [9,7,6,9,9], borderColor: '#051923', backgroundColor: 'rgba(5,25,35,0.2)', pointBackgroundColor: '#051923' }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { r: { suggestedMin: 0, suggestedMax: 10 } },
+                    plugins: { legend: { position: 'bottom' }, tooltip: tooltipTitle }
+                }
+            });
+
+            // Chart 4: Doughnut tecnología
+            new Chart(document.getElementById('tecnologiaChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Movilidad & Offline', 'IoT & Sensores', 'Machine Learning', 'Seguridad & SSO', 'Integraciones API', 'BI & Dashboards'],
+                    datasets: [{
+                        data: [18, 22, 20, 15, 13, 12],
+                        backgroundColor: ['#00A8E8','#00CECB','#a855f7','#FF9F1C','#051923','#6b7280'],
+                        borderWidth: 2, borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } }
+                }
+            });
+
+            // Chart 5: Cumplimiento barras horizontales
+            new Chart(document.getElementById('cumplimientoChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['JCI', 'ISO 15189', 'ISO 9001', 'HIMSS', 'ANMAT', 'CLSI GP26-A3'].map(wrapLabel),
+                    datasets: [
+                        { label: 'Requerimientos cubiertos (%)', data: [95,98,92,88,94,97], backgroundColor: '#22c55e', borderRadius: 6 },
+                        { label: 'En desarrollo (%)', data: [5,2,8,12,6,3], backgroundColor: '#E5E7EB', borderRadius: 6 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: { stacked: true, max: 100, title: { display: true, text: '% de Cobertura' } },
+                        y: { stacked: true }
+                    },
+                    plugins: { legend: { position: 'top' }, tooltip: tooltipTitle }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
